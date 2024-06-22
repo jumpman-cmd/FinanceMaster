@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracking</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Budget Tracking</h1>
+        <form id="budgetForm">
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category" required>
+
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" step="0.01" min="0" required>
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate" required>
+
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate" required>
+
+            <button type="submit">Add Budget</button>
+        </form>
+        <canvas id="budgetChart" width="400" height="200"></canvas>
+        <!-- Replace with actual image path -->
+        <img src="frontend/images (jpeg).jpeg" alt="Budget Visualization">
+    </div>
+    <script>
+        document.getElementById('budgetForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('/api/budgets/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    category: formData.get('category'),
+                    amount: formData.get('amount'),
+                    startDate: formData.get('startDate'),
+                    endDate: formData.get('endDate')
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const budgetChart = document.getElementById('budgetChart').getContext('2d');
+                updateBudgetChart();
+                alert('Budget added successfully!');
+                document.getElementById('budgetForm').reset();
+            })
+            .catch(error => {
+                console.error('Error adding budget:', error);
+                alert('Error adding budget. Please try again.');
+            });
+        });
+
+        function updateBudgetChart() {
+            fetch('/api/budgets/')
+                .then(response => response.json())
+                .then(data => {
+                    const categories = {};
+                    data.forEach(budget => {
+                        if (!categories[budget.category]) {
+                            categories[budget.category] = 0;
+                        }
+                        categories[budget.category] += budget.amount;
+                    });
+
+                    const labels = Object.keys(categories);
+                    const amounts = Object.values(categories);
+
+                    const ctx = document.getElementById('budgetChart').getContext('2d');
+                    const budgetChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Budgets by Category',
+                                data: amounts,
+                                backgroundColor: '#4BC0C0',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Budget Tracking'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+        }
+
+        updateBudgetChart();
+    </script>
+</body>
+</html>

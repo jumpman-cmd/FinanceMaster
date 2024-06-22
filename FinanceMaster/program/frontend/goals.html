@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goal Setting</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Financial Goals</h1>
+        <form id="goalForm">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+
+            <label for="targetAmount">Target Amount:</label>
+            <input type="number" id="targetAmount" name="targetAmount" step="0.01" min="0" required>
+
+            <label for="targetDate">Target Date:</label>
+            <input type="date" id="targetDate" name="targetDate" required>
+
+            <button type="submit">Add Goal</button>
+        </form>
+        <!-- Randomly chosen image -->
+        <img src="frontend/Sample_Money_Vector_Illustration.jpg" alt="Goal Setting Visualization">
+        <ul id="goalList"></ul>
+    </div>
+    <script>
+        document.getElementById('goalForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('/api/goals/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    description: formData.get('description'),
+                    targetAmount: formData.get('targetAmount'),
+                    targetDate: formData.get('targetDate'),
+                    currentAmount: 0
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const goalList = document.getElementById('goalList');
+                const listItem = document.createElement('li');
+                listItem.textContent = `${data.description} - ${data.targetAmount} by ${data.targetDate}`;
+                goalList.appendChild(listItem);
+            });
+        });
+
+        fetch('/api/goals/')
+            .then(response => response.json())
+            .then(data => {
+                const goalList = document.getElementById('goalList');
+                data.forEach(goal => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${goal.description} - ${goal.targetAmount} by ${goal.targetDate}`;
+                    goalList.appendChild(listItem);
+                });
+            });
+    </script>
+</body>
+</html>

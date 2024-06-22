@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Tracking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Progress Tracking</h1>
+        <ul id="goalProgress"></ul>
+        <!-- Replace with actual image path -->
+        <img src="frontend/depositphotos_276592546-stock-photo-beautiful-young-woman-wearing-sweater.jpg" alt="Progress Visualization">
+    </div>
+    <script>
+        fetch('/api/goals/')
+            .then(response => response.json())
+            .then(data => {
+                const goalProgress = document.getElementById('goalProgress');
+                data.forEach(goal => {
+                    const progressPercent = (goal.currentAmount / goal.targetAmount) * 100;
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${goal.description} - ${progressPercent.toFixed(2)}% completed`;
+                    goalProgress.appendChild(listItem);
+                });
+            });
+    </script>
+</body>
+</html>
