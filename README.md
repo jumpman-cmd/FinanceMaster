@@ -7,6 +7,7 @@ FinanceMaster is a personal finance management application designed to help user
 - **Backend**: Java
 - **Database**: MySQL with JDBC
 - **Frontend**: HTML5, CSS3, JavaScript
+-  I just learned Spring Boot Initializ, so I have used Spring Boot in this project as well.
 
 ## Features
 - User-friendly interface for adding and categorizing expenses.
