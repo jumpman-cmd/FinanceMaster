@@ -318,7 +318,7 @@ public class FinanceMasterApp
                 advice.append("<p><b> ---- Spend the remaining money on the following ---- </b> ").append("</p>");
                 advice.append("<p><b>==== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====</b> ").append("</p>");
                 advice.append("<p><b>30% for Food, Home Needs and Cosmetics:</b> ").append(currency).append(String.format("%.2f", remainingIncome * 0.30)).append("</p>");
-                advice.append("<p><b>20% savefor Emergencies:</b> ").append(currency).append(String.format("%.2f", remainingIncome * 0.20)).append("</p>");
+                advice.append("<p><b>20% save for Emergencies:</b> ").append(currency).append(String.format("%.2f", remainingIncome * 0.20)).append("</p>");
                 advice.append("<p><b>30% for Fun:</b> ").append(currency).append(String.format("%.2f", remainingIncome * 0.30)).append("</p>");
                 advice.append("</body></html>");
 
