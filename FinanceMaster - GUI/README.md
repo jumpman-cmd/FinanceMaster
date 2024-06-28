@@ -35,7 +35,7 @@ To learn more about Spring Boot and web application development, I recommend exp
 
 ## Acknowledgements
 
-This project was inspired by my passion for both programming and personal finance management. Special thanks to GeeksforGeeks, W3Schools and BingChatAI, used to assist in developing of this application.
+This project was inspired by my passion for both programming and personal finance management. Special thanks to GeeksforGeeks [https://www.geeksforgeeks.org/introduction-to-java-swing/], W3Schools [https://www.w3schools.com/java/] and BingChatAI, used to assist in developing of this application.
 
 ---
 
